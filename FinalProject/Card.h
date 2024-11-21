@@ -8,7 +8,8 @@ enum Suit : short {
 };
 
 struct Card {
-	char value;
+	// value of the card, if 0, it doesnt exist
+	char value = 0;
 	Suit suit;
 };
 
@@ -25,14 +26,17 @@ enum HandType : short {
 	HIGH_CARD
 };
 
+#define MAX_HAND_SIZE 9
+
 struct Hand {
-	Card cards[2];
-	HandType type;
-	char highCard;
+	Card cards[MAX_HAND_SIZE];
+	HandType type = HIGH_CARD;
+	char highCardValue;
 	short currentSize = 0;
 };
 
-std::map<int, Suit> SuitMap{
+
+const std::map<int, Suit> SuitMap = {
 	{Suit::DIAMOND, Suit::DIAMOND},
 	{Suit::HEART, Suit::HEART},
 	{Suit::CLUB, Suit::CLUB},

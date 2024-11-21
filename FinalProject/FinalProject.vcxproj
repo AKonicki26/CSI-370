@@ -129,12 +129,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FinalProject.cpp" />
-    <ClCompile Include="Poker.cpp" />
+    <ClCompile Include="BlackJack.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h" />
-    <ClInclude Include="Poker.h" />
+    <ClInclude Include="BlackJack.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>

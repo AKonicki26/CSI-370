@@ -18,7 +18,7 @@
     <ClCompile Include="FinalProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Poker.cpp">
+    <ClCompile Include="BlackJack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp">
@@ -26,7 +26,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Poker.h">
+    <ClInclude Include="BlackJack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Test.h">

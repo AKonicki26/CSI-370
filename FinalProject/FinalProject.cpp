@@ -3,11 +3,13 @@
 
 #include <iostream>
 #include "Test.h"
-#include "Poker.h"
+#include "BlackJack.h"
 
 
 int main() {
-    Poker game;
+    BlackJack game;
+
+    std::cout << "Game Over\n";
 }
 
 // Old main playground
