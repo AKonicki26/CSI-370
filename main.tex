@@ -1,0 +1,94 @@
+
+\documentclass[twoside]{article}
+\usepackage{fullpage}
+\usepackage[pdftex]{graphicx}
+\usepackage{wrapfig}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{sectsty}
+%\sectionfont{\fontsize{13}{15}\selectfont}
+\usepackage{fixltx2e}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[LO]{\emph{Hall - CSI 370}}
+\fancyfoot[LE]{\emph{Research 1 - Project}}
+\fancyfoot[R] {\thepage}
+\newenvironment{code}{\fontfamily{lmtt}\selectfont}{}
+\date{}
+\begin{document}
+\title{CSI 370 Computer Architecture \\ Research 1 - Project}
+\author{Brian R. Hall \\
+Champlain College\\
+hall@champlain.edu}
+\maketitle
+\renewcommand{\labelitemi}{$\diamond$}
+\noindent It is time to start thinking about projects. This activity/assignment
+requires you to write a one-page overview of your intended project. This will also
+be the beginning of your technical report that you submit alongside your
+implementation. All documentation should be written in {\LaTeX}. \textbf{The first
+submission, ``And i change this specific secition of the file to say something new, truly whatever i want it to, no one can stop me i have all the power here,'' should begin explaining the what, why, how, and
+potential challenges of your project on a macro scale. The one-page submission is
+due one week after assigned.}
+Students may work independently or in pairs. The project is flexible and has two
+options: (1) use a combination of provided hardware kits and microcontroller
+programming to build a device, or (2) implement an appropriate application or
+portion of an application using Assembly. \textbf{The project must be unique to
+this class.}
+As you consider project ideas, keep scope in mind. Choose something that is
+challenging, but doable given the timeframe. Projects will be due the last day of
+class and may be presented to the class. \\
+\textbf{Option 1 - Arduino/Hardware Project:}
+\begin{itemize}
+\item Must be unique in the sense that it cannot be an exact implementation
+of a tutorial found online from the Arduino site or elsewhere. You can use
+tutorials as a starting point if needed, but the final product must go beyond
+following a guide.
+\item You are allowed to use the Ardunio C-language variant for most of the
+software implementation for the project, but at least one code section or function
+must be written using the microcontroller's instruction set. As part of your
+technical report, you must elaborate on the ``Assembly'' section of your code and explain the instructions and their function.
+\item Arduino Uno is based on the ATmega 8-bit AVR enhanced RISC
+architecture. Some other Arduino models use different microcontrollers/processors.
+\item \url{https://www.arduino.cc}
+\item If you have your own microcontroller of a different type, such as PIC
+or ARM, you are welcome to use it for your project, so long as you follow the same
+requirements. Depending on department funds, we may be able to purchase a specific
+microcontroller for you (make requests to the professor).
+\end{itemize}
+\textbf{Option 2 - Software Project:}
+\begin{itemize}
+\item Code must be unique to this class.
+\item Must be substantial. That is, not as basic as the weekly assignments in
+this class.
+\item Could write a new program from scratch, in part or in whole, with
+Assembly.
+\item Could re-implement a program in Assembly that you previously wrote in a
+high-level language.
+\item Could re-implement function(s) in Assembly that are part of a larger
+project you have written. This means linking Assembly code with a high-level
+language. This is an opportunity to make a program more efficient. In fact, as part
+of your technical report you could have results of benchmark tests based on both
+versions of the program.
+\end{itemize}
+\noindent No matter which option you choose, the technical report must explain \
+textbf{in detail} the following components from a macro (project as a whole) and
+micro stance (the finer details). In a sense, you are documenting the project and
+your progress throughout implementation.
+\begin{itemize}
+\item What?
+\item Why?
+\item How?
+\item Challenges?
+\item Solutions?
+\item Explanations
+\item Visualizations
+\item Sources where applicable
+\end{itemize}
+I expect professional writing, professional quality, and professional
+presentations.
+\end{document}
+
+
