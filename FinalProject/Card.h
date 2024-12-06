@@ -1,4 +1,6 @@
-#include <map>
+﻿#include <map>
+#include <string>
+
 enum Suit : short {
 	DIAMOND = 0,
 	HEART,
@@ -42,3 +44,14 @@ const std::map<int, Suit> SuitMap = {
 	{Suit::CLUB, Suit::CLUB},
 	{Suit::SPADE, Suit::SPADE}
 };
+
+const std::map<Suit, std::string> SuitSymbolsMap = {
+	{Suit::DIAMOND, "Diamond"},
+	{Suit::HEART, "Heart"},
+	{Suit::CLUB, "Club"},
+	{Suit::SPADE, "Spade"}
+};
+
+std::string getCardValueString(Card card);
+
+int getCardValue(Card card);

@@ -2,7 +2,7 @@
 #include <set>
 #include <random>
 #include <iostream>
-#include "Card.h"
+#include "Player.h"
 
 #define mDealer mPlayers[0]
 #define NUMBER_OF_PLAYERS 2
@@ -15,76 +15,9 @@ class BlackJack
 public:
 	BlackJack() {
 		init();
-		playGame();
 	}
-
-	class Player {
-	public:
-		/// <summary>
-		/// Deals a card into the players hand. Will error if more cards cannot be added
-		/// </summary>
-		/// <param name="dealtCard">The card to be added to the players hand</param>
-		void dealCard(Card dealtCard) {
-			// Will error if there are no more cards to deal into the hand
-			mHand.cards[mHand.currentSize] = dealtCard;
-			mHand.currentSize++;
-		}
-
-		/// <summary>
-		/// Have a player take their turn
-		/// </summary>
-		/// <returns>0 if pass, non-0 if draw card</returns>
-		int takeTurn() {
-			
-		}
-
-		/// <summary>
-		/// Have the dealer take their turn
-		/// </summary>
-		/// <returns>0 if pass, non-0 if draw card</returns>
-		int dealerTurn() {
-			// Dealer will always take a card unless their hand is valued at 16 or more
-			if (getHandValue() >= 16)
-				return 0;
-
-			return 1;
-		}
-
-		int getHandValue() {
-			int sum = 0;
-			for (int i = 0; i < MAX_HAND_SIZE; i++) {
-				sum += mHand.cards[i].value;
-			}
-
-			return sum;
-		}
-	private:
-		Hand mHand;
-	};
-
-	void playGame() {
-		// Step 1: Give 2 cards each to each player
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < NUMBER_OF_PLAYERS; j++) {
-				mPlayers[j].dealCard(drawCard());
-			}
-		}
-		// Step 2: insert 3 cards into the community cards
-		for (int i = 0; i < 3; i++) {
-			mCommunityCards[i] = drawCard();
-		}
-
-		// See README for how game is played. 
-
-		if (mDealer.dealerTurn()) {
-			mDealer.dealCard(drawCard());
-		}
-
-		for (int i = 1; i < NUMBER_OF_PLAYERS; i++) {
-			if (mPlayers[i].takeTurn())
-				mPlayers[i].dealCard(drawCard());
-		}
-	}
+	
+	void playGame();
 	
 
 private:
@@ -101,6 +34,8 @@ private:
 	// Random Number generation code stolen from https://stackoverflow.com/questions/13445688/how-to-generate-a-random-number-in-c 
 	int getRandomNumber(int min, int max);
 
+	int processWinner();
+
 	/*
 	VARAIBLES TO NOT TOUCH IN ASSEMBLY
 	These variables all use dynamic sizing which requires changing the offset used in assembly to access their information every time
@@ -110,7 +45,5 @@ private:
 	*/
 
 	std::vector<Card> mDeck; 
-
-	
 };
 

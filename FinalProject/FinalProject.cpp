@@ -4,10 +4,15 @@
 #include <iostream>
 #include "Test.h"
 #include "BlackJack.h"
+#include <Windows.h>
 
 
 int main() {
+    //SetConsoleOutputCP(CP_UTF8);
+
     BlackJack game;
+
+    game.playGame();
 
     std::cout << "Game Over\n";
 }
