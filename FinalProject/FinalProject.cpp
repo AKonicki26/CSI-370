@@ -4,10 +4,15 @@
 #include <iostream>
 #include "Test.h"
 #include "BlackJack.h"
+#include <Windows.h>
 
 
 int main() {
+    //SetConsoleOutputCP(CP_UTF8);
+
     BlackJack game;
+
+    game.playGame();
 
     std::cout << "Game Over\n";
 }
@@ -33,13 +38,13 @@ int main()
     test.setEnumVal(TestEnum::FIRST);
     test.getEnumVal();
 
-    
+
     std::cout << (test.getEnumVal() != TestEnum::FIRST ? "Not " : "") << "Equal\n";
 
     test.addToNumber(5);
 
     std::cout << test.getNumber() << "\n"; // If this prints 17, the masm linking worked
-   
+
 }
 
 */
