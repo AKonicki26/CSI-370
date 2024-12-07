@@ -21,7 +21,6 @@ public:
 
 
 private:
-	Card mCommunityCards[5];
 	Player mPlayers[NUMBER_OF_PLAYERS]; // Starting with 2 players. Player 0 is always the dealer
 
 	// Initializations that cannot be done on the assembly side

@@ -128,16 +128,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Card.cpp" />
     <ClCompile Include="FinalProject.cpp" />
     <ClCompile Include="BlackJack.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h" />
     <ClInclude Include="BlackJack.h" />
     <ClInclude Include="Player.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="Card.asm" />
+    <MASM Include="Player.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

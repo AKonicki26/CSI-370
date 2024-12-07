@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Card.h"
+#include <iostream>
 
 class Player {
 public:

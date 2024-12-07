@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <iostream>
 
 /// <summary>
 /// Have a player take their turn
@@ -7,24 +6,21 @@
 /// <returns>0 if pass, non-0 if draw card</returns>
 int Player::takeTurn()
 {
-    std::cout << "Your hand:\n";
+    printYourHandText();
     displayHand();
-    // TODO: More logic here. There are for sure things im missing but idk what they are
 
     // player is either at 21 or has busted. They cannot take a new card
     if (getHandValue() >= 21)
         return 0;
 
-    int input = 0;
-
-    std::cout << "1.\tDraw Card\n2.\tPass Turn\n";
-    std::cin >> input;
+    printInputPrompt();
+    int input = getInput();
 
     return input == 1 ? 1 : 0;
 }
 
 int Player::dealerTurn() {
-    std::cout << "The dealers hand:\n";
+    printDealerHandText();
     displayHand();
     // Dealer will always take a card unless their hand is valued at 16 or more
     if (getHandValue() >= 16)
@@ -48,8 +44,8 @@ void Player::displayHand()
         if (mHand.cards[i].value == 0)
             break;
 
-        std::cout << getCardValueString(mHand.cards[i]) << " " << SuitSymbolsMap.at(mHand.cards[i].suit) << "\n";
+        printCard(mHand.cards[i]);
     }
-    std::cout << "Hand Value: " << getHandValue() << "\n\n";
+    printHandValue(getHandValue());
 
 };

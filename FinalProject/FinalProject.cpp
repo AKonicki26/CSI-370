@@ -5,6 +5,33 @@
 #include "BlackJack.h"
 #include <Windows.h>
 
+extern "C" void printYourHandText() {
+    std::cout << "Your Hand:\n";
+}
+
+extern "C" void printDealerHandText() {
+    std::cout << "The dealers hand:\n";
+}
+
+extern "C" void printInputPrompt() {
+    std::cout << "1.\tDraw Card\n2.\tPass Turn\n";
+}
+
+extern "C" int getInput() {
+    int input = 0;
+    std::cin >> input;
+    return input;
+}
+
+extern "C" void printCard(Card card) {
+    if (card.value == 0)
+        return;
+    std::cout << getCardValueString(card) << " " << SuitSymbolsMap.at(card.suit) << "\n";
+}
+
+extern "C" void printHandValue(int handValue) {
+    std::cout << "Hand Value: " << handValue << "\n\n";
+}
 
 int main() {
     //SetConsoleOutputCP(CP_UTF8);

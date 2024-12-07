@@ -8,10 +8,6 @@ void BlackJack::playGame() {
 			mPlayers[j].dealCard(drawCard());
 		}
 	}
-	// Step 2: insert 3 cards into the community cards
-	for (int i = 0; i < 3; i++) {
-		mCommunityCards[i] = drawCard();
-	}
 
 	// See README for how game is played. 
 

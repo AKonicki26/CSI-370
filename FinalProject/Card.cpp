@@ -1,18 +1,20 @@
 #include "Card.h"
 
-std::string getCardValueString(Card card)
+
+char getCardValueString(Card card)
 {
 	switch ((int)card.value) {
 	case 11:
-		return "J";
+		return 'J';
 	case 12:
-		return "Q";
+		return 'Q';
 	case 13:
-		return "K";
+		return 'K';
 	default:
-		return std::to_string((int)card.value);
+		return card.value + 48;
 	}
 }
+
 
 int getCardValue(Card card) {
 	return card.value >= 10 ? 10 : card.value;
