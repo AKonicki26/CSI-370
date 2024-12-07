@@ -50,6 +50,7 @@ CARD_DATA_SIZE EQU 4
 	jge playerDoesntPlay
 
 	; get player input on playing. 
+
 	call printInputPrompt
 	call getInput
 	cmp rax, 1 ; compare input to 1 (play)

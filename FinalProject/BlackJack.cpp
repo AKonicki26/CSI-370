@@ -133,7 +133,7 @@ int BlackJack::processWinner()
 	int winnerIndex = -1;
 	for (int i = 0; i < NUMBER_OF_PLAYERS; ++i) {
 		int handValue = mPlayers[i].getHandValue();
-		if (handValue > highestHandValue && handValue <= 21) {
+		if (handValue >= highestHandValue && handValue <= 21) {
 			highestHandValue = handValue;
 			winnerIndex = i;
 		}
