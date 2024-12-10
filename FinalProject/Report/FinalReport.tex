@@ -10,15 +10,37 @@
 \usepackage{listings}
 \usepackage{graphicx}
 \usepackage{lstmisc}
+\usepackage{xcolor}
 \pagestyle{fancy}
 \fancyhead{}
 \fancyfoot{}
 \renewcommand{\headrulewidth}{0pt}
-\fancyfoot[LO]{\emph{Konicki - CSI 370}}
-\fancyfoot[LE]{\emph{Research 1 - Project}}
+\fancyfoot[L]{\emph{Konicki - CSI 370 - Final Report}}
 \fancyfoot[R] {\thepage}
 \newenvironment{code}{\fontfamily{lmtt}\selectfont}{}
 \date{}
+
+\definecolor{commentgreen}{rgb}{0.0, 0.500, 0.015}
+
+\lstset{frame=tb,
+    language=C++,
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    commentstyle=\color{commentgreen}\ttfamily,
+    morecomment=[l][\color{magenta}]{\#},
+    breaklines=true,
+}
+
+\lstset{frame=tb,
+    language=MASM,
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    commentstyle=\color{commentgreen}\ttfamily,
+    morecomment=[l][\color{magenta}]{\#},
+    breaklines=true,
+}
 
 \graphicspath{ {./images/} }
 
@@ -122,18 +144,30 @@
     Rather than using the previous method, functionName PROTO, it would be done by using the PUBLIC keyword.
     So, to import the function ``int getCardValue(Card card)'' the correct line of code would be PUBLIC getCardValue.
 
+    \bigbreak
+    \noindent
+    Card.asm
     \begin{figure}[hbtp]
-        \centering
-        \includegraphics[scale=0.4]{Cardasm}
-        \caption {The opening of the Card.asm file}
-        \label{fig:Cardasm}
+        \begin{lstlisting}[language=MASM,label={lst:Cardasm}]
+PUBLIC ?getCardValue@@YAHUCard@@@Z
+PUBLIC  ?getCardValueString@@YADUCard@@@Z
+
+sCard STRUCT
+	value BYTE 0
+	suit WORD ?
+sCard ENDS
+
+.data
+
+card sCard < ?, ? >
+        \end{lstlisting}
     \end{figure}
 
     \noindent
     However, in order to ensure I would be able to use classes properly, there is one thing that was omitted which caused extra problems, which would be name mangling.
 
     \subsection{Name Mangling}\label{subsec:name-mangling}
-    As shown in~\ref{fig:Cardasm}, the names of the functions in the assembly code are not coherent.
+    As shown in~\ref{lst:Cardasm}, the names of the functions in the assembly code are not coherent.
     This is due to a concept known as ``Name Mangling.''
     It is best to explain this now, as it will become very apparent when discussing \ref{subsec:player.h-&-player.asm}.
     Name Mangling is the process in compiling code where functions and variables have their names programmatically changed to ensure there are no duplicate variable names.
@@ -168,8 +202,126 @@
     Should the function definition change in any way, the entire process would need to be repeated to discover the new name of the function.
 
     \subsection{Player.h \& Player.asm}\label{subsec:player.h-&-player.asm}
+    Player.h and Player.asm contain all code regarding a player's actions and the logic surrounding them.
+    For the purposes of simplicity, the dealer is considered a player.
+    Functions that handle input and output to the console are called from within the player's member functions.
+    The player member functions also call other functions from the player class.
 
-    \bigblock
+    \bigbreak
+    \noindent
+    In order to ensure this was possible, storing the `this' pointer into a reserved variable.
+    It is possible to have done this by pushing and popping this value onto the stack, however saving it into an dedicated variable was more simple than dealing with stack operations.
+    The reason this was required is because of how C++ handles member functions.
+    Consider the following class definition example.
 
+    \bigbreak
+    \noindent
+    Timer.h
+    \begin{lstlisting}[language=C++,label={lst:TimerClass}]
+class Timer {
+public:
+    Timer();
+
+    // Display method
+    void display();
+    void update(float deltaTime);
+
+private:
+    float mTime;
+}
+    \end{lstlisting}
+
+    \bigbreak
+    \noindent
+    the `display()' method takes no parameters when being called, and the `update(float deltaTime)' function takes one float parameter.
+    However, secretly, this is not true.
+    In C++, much like python if you have any experience with it, all member functions pass the `this' pointer in as the first parameter.
+    Thus, the member function definitions could be thought of as looking like the following:
+    \bigbreak
+    \noindent
+    Timer.h
+    \begin{lstlisting}[language=C++,label={lst:TimerClassFunctionsWithThis}]
+    void display(Timer* instance);
+    void update(Timer* instance, float deltaTime);
+    \end{lstlisting}
+
+    \bigbreak
+    \noindent
+    When one of these functions is called, the memory address of the class instance the function is being called on is loaded into the instance parameter slot.
+    In assembly, this is the rcx register.
+    So, to ensure that the member functions are called properly, the memory address of the current class instance, what is known as the `this' keyword in C++, is preserved and loaded into rcx before each function call.
+
+
+
+    \subsubsection{Extern ``C''}
+    One question those with experience working with C$/$C++ and assembly might have is ``Why do you not simply use the Extern ``C'' keyword and avoid the class's Name Mangling all together?''
+    To answer that, first recall what Name Mangling does from~\ref{subsec:name-mangling}.
+    Name Mangling prevents the function name from being modified during the compilation of the C$/$C++ code.
+    However, this does not work with class data structures.
+    Consider the following class definition along with the one from~\ref{lst:TimerClass}.
+    \bigbreak
+
+    \noindent
+    Thermometer.h
+    \begin{lstlisting}[language=C++,label={lst:ThermometerClass}]
+class Thermometer {
+public:
+    Thermometer();
+
+    // Display method
+    void display();
+
+    void setTemperature(float temperature);
+    float getTemperature();
+
+private:
+    float mTemperature;
+}
+    \end{lstlisting}
+
+    \bigbreak
+    \noindent
+    Both class definitions contain a ``display()'' member function.
+    This is allowed in C++ because of the functions' scopes.
+    If the Extern ``C'' keyword were to be applied to each of those member functions, which would be the function called display?
+    Functions cannot share names in assembly, so only one of them can be called `display' on the compiled assembly.
+    Thus, disabling Name Mangling on member functions and member variables is not allowed to prevent this situation from occurring.
+
+    \subsubsection{Variable Accessing}
+    \noindent
+    If you recall from, ~\ref{subsec:card.h-card.cpp-&-card.asm}, I had created a struct to place card objects into to access the structs variables consistently.
+    There is no Player struct defined in Player.asm, so how are the actual card locations accessed?
+    The player class was carefully constructed to ensure the offsets are correct and consistent.
+    Similar to assembly structs, a class does not actually have a concrete memory address, contrary to what the ``this'' keyword in C++ would have you believe.
+    Instead, structs and classes use memory offsets to find member variables, and the memory address of the class simply points to the first member variable in the class.
+
+    \bigbreak
+    \noindent
+    When crafting the Player class, I ensured that the Card[] would be the variable that the memory address of the class points to.
+    The only member variable in the Player class is a struct called a `Hand,' which acts as a container for a card array.
+    This card array is also the first variable defined in the Hand struct, meaning that after all the struct abstraction, the memory address of the ``Player'' class truthfully points to a C++ char variable that holds the value of the first card.
+    Then, accessing further cards in this array is the same as accessing any other value in an array, taking the memory address of the first element in it, and adding the index of access multiplied by the size of the object.
+
+    \section{Download}\label{sec:download}
+    The project in full can be downloaded from my \href{https://github.com/AKonicki26/CSI-370}{GitHub}.
+    I recommend downloading the source code rather than any finished product as the motivation behind the project is on how the different source code elements link together rather than the actual finished product.
+
+    \section{In Retrospect}
+    With this project, I have accomplished what I set out to do.
+    While there are improvements that could have been done, the focus of the project was on educational growth rather than the actual final deliverable.
+    Discovering \emph{how} these functions will link together with the original class declarations had taken an unfathomable amount of time in a test class, before I had even started working on the Blackjack game itself.
+    Had I had to do this project again, the only thing I would have done differently would be to choose a different implementation.
+    Using the BlackJack method made it fairly overcomplicated.
+    Because of the difficulty of using a game with random elements and a deck that needs to be shuffled before it can be accessed, there were many elements of the game I was unable to write in assembly.
+    While it wasn't required to write \emph{all} code in assembly, I would have liked to do more of the game logic in assembly than just the Player logic.
+
+    \bigbreak
+    \noindent
+    Regardless of the minuscule gripes I have, I am deeply proud of this project.
+    If there is any major takeaway I will have from this class, it is how classes work at a fundamental level.
+    Understanding the memory addresses of classes, the offsets they use, and how the functions don't actually exist as members of the class have elevated how I understand higher level programming languages dramatically.
+    A large amount of the programming I do is in languages that use Object Oriented Programming principles.
+    My language of choice is C#, a language that near \emph{requires} the use of Objects.
+    Being able to have a better understanding of what is happening when classes are made, functions are called, and weird memory accesses happen will allow me to better work in the high level languages that use Classes often.
 
 \end{document}
