@@ -59,6 +59,7 @@
     \subsection{Project Goals \& Motivation}\label{subsec:project-goals}
     The main goal of the project is to discover how Class datastructures in C++ exist at lower level languages such as assembly that do not have support for classes.
     A large majority of C++ decompiling programs, such as CodeBrowser, will output assembly code that is eventually reverse engineered further into C++.
+
     \begin{figure}[hbtp]
         \centering
         \includegraphics[width=\textwidth]{DecompiledAssembly}
@@ -68,11 +69,12 @@
 
     \bigbreak
     \noindent
-    The decompiled code above does create C++ code, but without any parameter names, uses GOTO statements, and raw memory address accessing rather than any structs or class datastructures.
+    The decompiled code below in \ref{fig:DecompiledAssemblyImage} does create C++ code, but without any parameter names, uses GOTO statements, and raw memory address accessing rather than any structs or class datastructures.
     The code did not create any functionality that does not exist in the assembly architecture used already.
     This exposed a gap in my knowledge where I didn't know how higher level concepts exist in assembly.
     Majority of the class had been spent discussing how concepts in higher levels translate into assembly in a more one-to-one fashion.
     In order to get a better understanding the decompiled code above, I would need to first learn how Object Oriented Programming principles exist in assembly, a language that notably does not do Object Oriented Programming.
+
 
     \section{Creating the Application}\label{sec:creating-the-application}
 
@@ -150,10 +152,16 @@
         \item Run the command ``dumpbin /symbols Class.obj''
     \end{enumerate}
     This would dump all symbols found in the resulting file.
-    However, assuming the class is one that uses external libraries such as <iostream> or <string>, there would be too many symbols in the file to be able to find the ones that belong to your class implementation.
-    In order to actually find the mangled names, it was easier to use the command ``dumpbin /symbols Class.obj | Select-String `Class::' '' as it would filter the output of the dumpbin command to only the class's function definitions.
+    However, assuming the class is one that uses external libraries such as $<$iostream$>$ or $<$string$>$, there would be too many symbols in the file to be able to find the ones that belong to your class implementation.
+    In order to actually find the mangled names, it was easier to use the command ``dumpbin /symbols Class.obj $|$ Select-String `Class::' '' as it would filter the output of the dumpbin command to only the class's function definitions.
 
-    \bigbreak
+    \begin{figure}[hbtp]
+        \centering
+        \includegraphics[scale=4]{dumpbin}
+        \caption {Output of the dumpbin command on Player.obj}
+        \label{fig:Dumpbin}
+    \end{figure}
+
     \noindent
     Once these mangled names were found, they would be consistent so long as the function definition did not change.
     The mangled names often included some reference to the original function name and the class the function belongs to, if it belonged to one.
@@ -162,7 +170,6 @@
     \subsection{Player.h \& Player.asm}\label{subsec:player.h-&-player.asm}
 
     \bigblock
-
 
 
 \end{document}
